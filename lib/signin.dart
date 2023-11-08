@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:inventorymanagement/company.dart';
 import 'package:inventorymanagement/presistant.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inventorymanagement/signup.dart';
 import 'connect.dart';
+import 'main.dart';
 
 
 class Signin extends StatefulWidget {
@@ -128,7 +130,7 @@ class _SigninState extends State<Signin> {
                     {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const MyHomePage1(),
+                          builder: (context) =>Company(cameras: cameras,),
                         ),
                       );
                     }

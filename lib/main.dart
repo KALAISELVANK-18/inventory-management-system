@@ -1,21 +1,25 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:inventorymanagement/check.dart';
-import 'package:inventorymanagement/home.dart';
-import 'package:inventorymanagement/presistant.dart';
-import 'package:inventorymanagement/signin.dart';
-import 'package:inventorymanagement/signup.dart';
+import 'package:flutter/services.dart';
 
+import 'package:inventorymanagement/company.dart';
+import 'package:inventorymanagement/signup.dart';
 import 'firebase_options.dart';
 final user = FirebaseAuth.instance.currentUser;
-void main() async{
+
+List<CameraDescription>? cameras;
+
+Future<void> main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  cameras = await availableCameras();
+  await FirebaseMessaging.instance.getInitialMessage();
   runApp(const MyApp());
 }
 
@@ -25,9 +29,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -40,7 +49,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: (user!=null)?const MyHomePage1():const Signup(),
+      home: (user!=null)?Company(cameras: cameras,):const Signup(),
     );
   }
 }

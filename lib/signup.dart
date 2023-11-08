@@ -2,12 +2,14 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:inventorymanagement/company.dart';
 
 import 'package:inventorymanagement/presistant.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inventorymanagement/signin.dart';
 
 import 'connect.dart';
+import 'main.dart';
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
 
@@ -223,7 +225,7 @@ class _SignupState extends State<Signup> {
                           });
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const MyHomePage1(),
+                              builder: (context) => Company(cameras: cameras,),
                             ),
                           );
                         }

@@ -1,19 +1,39 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:inventorymanagement/company.dart';
 import 'package:inventorymanagement/customer.dart';
+import 'package:inventorymanagement/customertrash.dart';
 import 'package:inventorymanagement/items.dart';
 import 'package:inventorymanagement/order.dart';
 import 'package:inventorymanagement/signin.dart';
+
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final String dropdownValue;
+  List<CameraDescription>? cameras;
+  Home({required this.dropdownValue,required this.cameras});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  String? mtoken="";
+  void initState(){
+    super.initState();
+  }
+
+
+
+
 
 
   @override
@@ -70,25 +90,39 @@ class _HomeState extends State<Home> {
               ),
             ),
 
-
             ListTile(
               onTap: ()async{
                 await FirebaseAuth.instance.signOut();
-                Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const Signin(),
-                ),
-              );},
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+
+                  screen: Signin(),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.fade,
+                );},
               hoverColor: Colors.blueAccent,
               title: Text("Logout"),
-            )
+            ),
+            ListTile(
+              onTap: ()async{
+
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+
+                  screen: Company(cameras: widget.cameras,),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.fade,
+                );},
+              hoverColor: Colors.blueAccent,
+              title: Text("Change profile"),
+            ),
           ],
         ),
       ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255,26, 26, 29),
-        title: Center(child: Text("Kalai's Inventory")),
+        title: Center(child: Text("${widget.dropdownValue}'s Inventory")),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right:20.0),
@@ -100,9 +134,10 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
 
+
             Container(
               decoration: BoxDecoration(
-                color: Color.fromARGB(255,26, 26, 29)
+                  color: Color.fromARGB(255,26, 26, 29)
               ),
               height: 252,
               child: Center(
@@ -111,7 +146,7 @@ class _HomeState extends State<Home> {
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)
+                        borderRadius: BorderRadius.circular(10)
                     ),
                     height: 220,
                     child: Column(
@@ -132,7 +167,7 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: [
                               Text("     Welcome to Expert inventory! We are here\nto manage your inventory you can run your\nbusiness well using our EXpert!!",
-                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 14,)),
+                                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 14,)),
                             ],
                           ),
                         ),
@@ -173,6 +208,8 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
+
+
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,7 +226,7 @@ class _HomeState extends State<Home> {
                     onPressed:(){
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const Items(),
+                          builder: (context) =>  Items(dropdownValue: widget.dropdownValue),
                         ),
                       );
                   },
@@ -237,7 +274,7 @@ class _HomeState extends State<Home> {
                     onPressed:(){
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const Customer(),
+                          builder: (context) =>  Customer(dropdownValue: widget.dropdownValue),
                         ),
                       );
                     },
@@ -281,7 +318,7 @@ class _HomeState extends State<Home> {
                     onPressed: (){
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const Orders(),
+                          builder: (context) =>  Orders(dropdownValue: widget.dropdownValue),
                         ),
                       );
                     },
@@ -321,50 +358,7 @@ class _HomeState extends State<Home> {
                       margin: EdgeInsets.all(8.0),
                     ),
                   ),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const Orders(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 5.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3), // changes the shadow position
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
 
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(child: Text("Packages",style:GoogleFonts.poppins(color: Colors.black, fontSize: 15,))),
-                            ),
-                          ),
-                          SizedBox(height: 0,),
-                          Padding(
-                              padding: const EdgeInsets.only(left:8.0),
-                              child: Container(height: 60,width: 60,
-                                child: Image.network('https://media.istockphoto.com/id/1266320680/vector/courier-delivers-the-parcel-to-the-addressee-illustration-smartphones-tablets-user-interface.jpg?s=612x612&w=0&k=20&c=IvzvJ4cnZIrdoaNpdGPjaUJZAY7ucRvtiLg0jGOTp8M='),
-                              )),
-                        ],
-                      ),
-                      margin: EdgeInsets.all(8.0),
-                    ),
-                  ),
 
                   // Add more containers as needed
                 ],
@@ -384,14 +378,13 @@ class _HomeState extends State<Home> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
 
-                itemCount: 4,
+                itemCount: 2,
                 itemBuilder: (context,index){
                   List<String> a=["https://static.vecteezy.com/system/resources/previews/004/461/894/original/invoice-payments-flat-illustration-bill-pay-online-receipt-cartoon-concept-internet-banking-account-ebanking-user-credit-cards-transactions-instant-money-transfer-by-click-metaphor-vector.jpg",
-                    "https://media.istockphoto.com/id/1445750699/pt/vetorial/welcoming-cartoon-parcel-delivery-service-vector-illustration.jpg?s=612x612&w=0&k=20&c=THGXX2WGlbMCZxA58p1yzPByB2dKEn6v_Es_FBA7LSs=","https://thumbs.dreamstime.com/z/logistic-delivery-shipping-cartoon-logistic-delivery-shipping-truck-carrying-merchandise-gps-location-tracing-153494330.jpg",
-                    "https://as1.ftcdn.net/jpg/04/54/12/20/160_F_454122065_01Z0YnH4IKgJHKuvrsfRDs6yyHcjywco.jpg",
-                    ];
+                       "https://cdn-icons-png.flaticon.com/512/1356/1356594.png"
+                        ];
 
-                  List<String> b=["Quantity to be invoiced","Quantity to be packed","Packages to be shipped","Packages to be delivered",];
+                  List<String> b=["Quantity to be invoiced","Quantity already invoiced",];
 
 
                   return Padding(
@@ -413,50 +406,55 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                           width: MediaQuery.of(context).size.width*0.9,
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(crossAxisAlignment: CrossAxisAlignment.center,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Container(
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:8.0),
-                                      child: Container(height: 70,width: 70,
-                                          child: Image.network(a[index])),
+                                    Row(crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:8.0),
+                                          child: Container(height: 70,width: 70,
+                                              child: Image.network(a[index])),
 
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:15.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                  StreamBuilder(
+                                      stream:FirebaseFirestore.instance
+                                              .collection(widget.dropdownValue).doc("salesorder").collection("salesorder").where("level",isEqualTo: index).snapshots(),
+                                      builder:(context,AsyncSnapshot snapshot){
+
+                                      if(snapshot.hasData) {
+
+                                        return Text("${snapshot.data.docs.length}",style:GoogleFonts.poppins(color: Colors.black, fontSize: 30,));
+                                      }
+                                      else
+                                      return CircularProgressIndicator();
+
+
+                                      }),
+                                        SizedBox(height: 5,),
+                                        Text(b[index],style:GoogleFonts.poppins(color: Colors.black, fontSize: 16,))
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left:15.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                              StreamBuilder(
-                                  stream:FirebaseFirestore.instance
-                                          .collection(FirebaseAuth.instance.currentUser!.email.toString()).doc("salesorder").collection("salesorder").where("level",isEqualTo: index).snapshots(),
-                                  builder:(context,AsyncSnapshot snapshot){
-
-                                  if(snapshot.hasData) {
-
-                                    return Text("${snapshot.data.docs.length}",style:GoogleFonts.poppins(color: Colors.black, fontSize: 30,));
-                                  }
-                                  else
-                                  return CircularProgressIndicator();
-
-
-                                  }),
-                                    SizedBox(height: 5,),
-                                    Text(b[index],style:GoogleFonts.poppins(color: Colors.black, fontSize: 16,))
-                                        ],
-                                      ),
+                                      padding: const EdgeInsets.only(right: 10.0),
+                                      child: Icon(Icons.arrow_forward_ios),
                                     )
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: Icon(Icons.arrow_forward_ios),
-                                )
-                              ],
+                              ),
                             ),
                           ),
                         )
@@ -464,7 +462,6 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 }),
-
 
           ],
         ),

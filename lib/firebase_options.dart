@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAEU0DEKlSkIjkkmcYjEriB8lhMf0TVlu8',
-    appId: '1:577320009049:web:0b49a67cd519c13be6e048',
-    messagingSenderId: '577320009049',
-    projectId: 'inventory-b84c0',
-    authDomain: 'inventory-b84c0.firebaseapp.com',
-    storageBucket: 'inventory-b84c0.appspot.com',
-    measurementId: 'G-TDH1RNH1DP',
+    apiKey: 'AIzaSyBRbIGU9PLLXnII1t_tLaoRZc0b5hEmYgk',
+    appId: '1:961794601892:web:3de1f9f2183e2e04010731',
+    messagingSenderId: '961794601892',
+    projectId: 'inventory2-e1a3f',
+    authDomain: 'inventory2-e1a3f.firebaseapp.com',
+    storageBucket: 'inventory2-e1a3f.appspot.com',
+    measurementId: 'G-NLYCGKZDMK',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAAbL0az0DlT_LPKqMrR_Ahyz0NLgbSCQo',
-    appId: '1:577320009049:android:a2646831efb74a5ae6e048',
-    messagingSenderId: '577320009049',
-    projectId: 'inventory-b84c0',
-    storageBucket: 'inventory-b84c0.appspot.com',
+    apiKey: 'AIzaSyD-pnMYwiI_-2_DG9ZG5fMMVMGtM7irfpI',
+    appId: '1:961794601892:android:48b57de3c5a66997010731',
+    messagingSenderId: '961794601892',
+    projectId: 'inventory2-e1a3f',
+    storageBucket: 'inventory2-e1a3f.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD_Xla_ntqUsdoBTufmAYIFwXT_-6zJ8pg',
-    appId: '1:577320009049:ios:594e029b3c849a42e6e048',
-    messagingSenderId: '577320009049',
-    projectId: 'inventory-b84c0',
-    storageBucket: 'inventory-b84c0.appspot.com',
-    iosClientId: '577320009049-psu9t1pl7r2dbis4gqj445u638625a2d.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD1g_eCPhuidB4kPSZGTjWa3uSqmzvpkk0',
+    appId: '1:961794601892:ios:4aafec1b1b002bc3010731',
+    messagingSenderId: '961794601892',
+    projectId: 'inventory2-e1a3f',
+    storageBucket: 'inventory2-e1a3f.appspot.com',
+    iosClientId: '961794601892-qq39p5262ibceee0h8tt69o2tr5bh922.apps.googleusercontent.com',
     iosBundleId: 'com.example.inventorymanagement',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD_Xla_ntqUsdoBTufmAYIFwXT_-6zJ8pg',
-    appId: '1:577320009049:ios:594e029b3c849a42e6e048',
-    messagingSenderId: '577320009049',
-    projectId: 'inventory-b84c0',
-    storageBucket: 'inventory-b84c0.appspot.com',
-    iosClientId: '577320009049-psu9t1pl7r2dbis4gqj445u638625a2d.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD1g_eCPhuidB4kPSZGTjWa3uSqmzvpkk0',
+    appId: '1:961794601892:ios:4aafec1b1b002bc3010731',
+    messagingSenderId: '961794601892',
+    projectId: 'inventory2-e1a3f',
+    storageBucket: 'inventory2-e1a3f.appspot.com',
+    iosClientId: '961794601892-qq39p5262ibceee0h8tt69o2tr5bh922.apps.googleusercontent.com',
     iosBundleId: 'com.example.inventorymanagement',
   );
 }

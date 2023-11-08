@@ -1,7 +1,10 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventorymanagement/home.dart';
-import 'package:inventorymanagement/you.dart';
+
+import 'package:inventorymanagement/home.dart';
+import 'package:inventorymanagement/tools.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,7 +16,9 @@ final user = FirebaseAuth.instance.currentUser;
 
 //final user = App(AppConfiguration('application-0-wxtih',localAppName: "odkec")).currentUser;
 class MyHomePage1 extends StatefulWidget {
-  const MyHomePage1({Key? key}) : super(key: key);
+  final String dropdownValue;
+      List<CameraDescription>? cameras;
+   MyHomePage1({required this.dropdownValue,required this.cameras});
 
 
   static const String routeName = "/signup";
@@ -90,7 +95,7 @@ class _MyHomePage1State extends State<MyHomePage1> {
   }
   List<Widget> _buildScreens() {
     return [
-      Home(),You()
+      Home(dropdownValue: widget.dropdownValue,cameras: widget.cameras), Tools(dropdownvalue:widget.dropdownValue,cameras: widget.cameras,)
     ];
   }
 
@@ -109,7 +114,7 @@ class _MyHomePage1State extends State<MyHomePage1> {
 
       PersistentBottomNavBarItem(
           icon: Icon(Icons.person,),
-          title: ("You"),
+          title: ("Tools"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white,
           activeColorSecondary: Colors.black

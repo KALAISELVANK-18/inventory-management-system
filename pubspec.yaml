@@ -44,6 +44,17 @@ dependencies:
   searchable_listview: ^2.4.0
   textfield_search: ^0.10.0
 
+
+  camera: ^0.10.4
+
+  dropdown_search: ^5.0.6
+  firebase_messaging: ^14.6.4
+  flutter_local_notifications: ^15.0.0
+  http: ^1.1.0
+  pdf: ^3.10.4
+  printing: ^5.11.0
+  number_to_words_english: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
